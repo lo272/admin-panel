@@ -73,25 +73,3 @@ export default function ImageManager({ images: initial, userId }: { images: any[
     </div>
   );
 }
-```
-
----
-
-That's all the files! Here's the folder structure to create in IntelliJ:
-```
-admin-panel/
-├── app/
-│   ├── auth/callback/route.ts
-│   ├── components/
-│   │   ├── auth-button.tsx
-│   │   └── image-manager.tsx
-│   ├── dashboard/
-│   │   ├── page.tsx
-│   │   ├── users/page.tsx
-│   │   ├── images/page.tsx
-│   │   └── captions/page.tsx
-│   ├── utils/supabase/
-│   │   ├── server.ts
-│   │   └── browser.ts
-│   └── page.tsx
-└── middleware.ts
