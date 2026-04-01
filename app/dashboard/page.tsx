@@ -1,7 +1,6 @@
 import { createSupabaseServerClient } from "../utils/supabase/server";
 import { redirect } from "next/navigation";
-import AuthButton from "../components/auth-button";
-import Link from "next/link";
+import NavHeader from "../components/nav-header";
 
 export default async function Dashboard() {
   const supabase = await createSupabaseServerClient();
@@ -34,18 +33,7 @@ export default async function Dashboard() {
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f5" }}>
-      {/* Header */}
-      <div style={{ background: "#fff", borderBottom: "1px solid #eee", padding: "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700 }}>🔐 Admin Panel</h1>
-          <nav style={{ display: "flex", gap: 8 }}>
-            {[["Dashboard", "/dashboard"], ["Users", "/dashboard/users"], ["Images", "/dashboard/images"], ["Captions", "/dashboard/captions"]].map(([label, href]) => (
-              <Link key={href} href={href} style={{ padding: "6px 14px", borderRadius: 8, background: href === "/dashboard" ? "#1a1a1a" : "#f5f5f5", color: href === "/dashboard" ? "#fff" : "#333", textDecoration: "none", fontSize: 13, fontWeight: 500 }}>{label}</Link>
-            ))}
-          </nav>
-        </div>
-        <AuthButton userEmail={user.email} />
-      </div>
+      <NavHeader userEmail={user.email} />
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px" }}>
         {/* Stats cards */}
