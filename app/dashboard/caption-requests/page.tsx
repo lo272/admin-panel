@@ -9,7 +9,7 @@ export default async function CaptionRequestsPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: requests } = await supabase.from("caption_requests").select("*").order("created_at", { ascending: false }).limit(200);
+  const { data: requests } = await supabase.from("caption_requests").select("*").order("created_datetime_utc", { ascending: false }).limit(200);
 
   const keys = requests && requests.length > 0 ? Object.keys(requests[0]) : ["id", "image_id", "profile_id", "status", "created_at"];
 

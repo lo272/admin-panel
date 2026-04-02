@@ -9,7 +9,7 @@ export default async function LlmResponsesPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: responses } = await supabase.from("llm_model_responses").select("*").order("created_at", { ascending: false }).limit(200);
+  const { data: responses } = await supabase.from("llm_model_responses").select("*").order("created_datetime_utc", { ascending: false }).limit(200);
 
   const keys = responses && responses.length > 0 ? Object.keys(responses[0]) : ["id", "model_id", "prompt", "response", "tokens_used", "created_at"];
 

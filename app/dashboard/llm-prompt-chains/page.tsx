@@ -9,7 +9,7 @@ export default async function LlmPromptChainsPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: chains } = await supabase.from("llm_prompt_chains").select("*").order("created_at", { ascending: false });
+  const { data: chains } = await supabase.from("llm_prompt_chains").select("*").order("created_datetime_utc", { ascending: false });
 
   const keys = chains && chains.length > 0 ? Object.keys(chains[0]) : ["id", "name", "description", "created_at"];
 

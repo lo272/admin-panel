@@ -10,7 +10,7 @@ export default async function CaptionExamplesPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: examples } = await supabase.from("caption_examples").select("*").order("created_at", { ascending: false });
+  const { data: examples } = await supabase.from("caption_examples").select("*").order("created_datetime_utc", { ascending: false });
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f5" }}>
@@ -22,13 +22,17 @@ export default async function CaptionExamplesPage() {
           items={examples ?? []}
           columns={[
             { key: "id", label: "ID" },
-            { key: "content", label: "Content" },
-            { key: "humor_flavor_id", label: "Flavor ID" },
-            { key: "created_at", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
+            { key: "image_id", label: "Image ID" },
+            { key: "caption", label: "Caption" },
+            { key: "image_description", label: "Image Description" },
+            { key: "priority", label: "Priority" },
+            { key: "created_datetime_utc", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
           ]}
           formFields={[
-            { key: "content", label: "Content", type: "textarea", required: true },
-            { key: "humor_flavor_id", label: "Flavor ID" },
+            { key: "caption", label: "Caption", type: "textarea", required: true },
+            { key: "image_description", label: "Image Description", type: "textarea" },
+            { key: "image_id", label: "Image ID" },
+            { key: "priority", label: "Priority", type: "number" },
           ]}
         />
       </div>

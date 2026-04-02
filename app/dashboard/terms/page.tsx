@@ -10,7 +10,7 @@ export default async function TermsPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: terms } = await supabase.from("terms").select("*").order("created_at", { ascending: false });
+  const { data: terms } = await supabase.from("terms").select("*").order("created_datetime_utc", { ascending: false });
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f5" }}>
@@ -22,13 +22,17 @@ export default async function TermsPage() {
           items={terms ?? []}
           columns={[
             { key: "id", label: "ID" },
-            { key: "name", label: "Name" },
-            { key: "description", label: "Description" },
-            { key: "created_at", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
+            { key: "term", label: "Term" },
+            { key: "definition", label: "Definition" },
+            { key: "example", label: "Example" },
+            { key: "priority", label: "Priority" },
+            { key: "created_datetime_utc", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
           ]}
           formFields={[
-            { key: "name", label: "Name", required: true },
-            { key: "description", label: "Description", type: "textarea" },
+            { key: "term", label: "Term", required: true },
+            { key: "definition", label: "Definition", type: "textarea" },
+            { key: "example", label: "Example", type: "textarea" },
+            { key: "priority", label: "Priority", type: "number" },
           ]}
         />
       </div>

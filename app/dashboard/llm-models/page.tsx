@@ -10,7 +10,7 @@ export default async function LlmModelsPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: models } = await supabase.from("llm_models").select("*").order("created_at", { ascending: false });
+  const { data: models } = await supabase.from("llm_models").select("*").order("created_datetime_utc", { ascending: false });
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f5" }}>
@@ -23,20 +23,20 @@ export default async function LlmModelsPage() {
           columns={[
             { key: "id", label: "ID" },
             { key: "name", label: "Name" },
-            { key: "model_id", label: "Model ID" },
-            { key: "provider_id", label: "Provider ID" },
-            { key: "is_active", label: "Active", render: v => (
+            { key: "provider_model_id", label: "Model ID" },
+            { key: "llm_provider_id", label: "Provider ID" },
+            { key: "is_temperature_supported", label: "Temp Supported", render: v => (
               <span style={{ fontSize: 12, padding: "2px 8px", borderRadius: 99, background: v ? "#dcfce7" : "#f5f5f5", color: v ? "#16a34a" : "#888" }}>
                 {v ? "Yes" : "No"}
               </span>
             )},
-            { key: "created_at", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
+            { key: "created_datetime_utc", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
           ]}
           formFields={[
             { key: "name", label: "Name", required: true },
-            { key: "model_id", label: "Model ID", required: true },
-            { key: "provider_id", label: "Provider ID" },
-            { key: "is_active", label: "Active", type: "checkbox" },
+            { key: "provider_model_id", label: "Model ID", required: true },
+            { key: "llm_provider_id", label: "Provider ID" },
+            { key: "is_temperature_supported", label: "Temp Supported", type: "checkbox" },
           ]}
         />
       </div>

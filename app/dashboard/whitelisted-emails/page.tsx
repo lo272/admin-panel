@@ -10,14 +10,7 @@ export default async function WhitelistedEmailsPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  // Try whitelisted_emails first, fall back to invitations
-  const { data: emails, error } = await supabase.from("whitelisted_emails").select("*").order("created_at", { ascending: false });
-  const { data: invitations } = error
-    ? await supabase.from("invitations").select("*").order("created_at", { ascending: false })
-    : { data: null };
-
-  const rows = emails ?? invitations ?? [];
-  const tableName = error ? "invitations" : "whitelisted_emails";
+  const { data: emails } = await supabase.from("whitelist_email_addresses").select("*").order("created_datetime_utc", { ascending: false });
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f5" }}>
@@ -25,17 +18,15 @@ export default async function WhitelistedEmailsPage() {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px" }}>
         <CrudManager
           title="✉️ Whitelisted Emails"
-          tableName={tableName}
-          items={rows}
+          tableName="whitelist_email_addresses"
+          items={emails ?? []}
           columns={[
             { key: "id", label: "ID" },
-            { key: "email", label: "Email" },
-            { key: "status", label: "Status" },
-            { key: "created_at", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
+            { key: "email_address", label: "Email" },
+            { key: "created_datetime_utc", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
           ]}
           formFields={[
-            { key: "email", label: "Email", type: "email", required: true },
-            { key: "status", label: "Status" },
+            { key: "email_address", label: "Email", type: "email", required: true },
           ]}
         />
       </div>

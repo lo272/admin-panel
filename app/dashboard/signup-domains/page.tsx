@@ -10,7 +10,7 @@ export default async function SignupDomainsPage() {
   const { data: profile } = await supabase.from("profiles").select("is_superadmin").eq("id", user.id).single();
   if (!profile?.is_superadmin) redirect("/");
 
-  const { data: domains } = await supabase.from("allowed_signup_domains").select("*").order("created_at", { ascending: false });
+  const { data: domains } = await supabase.from("allowed_signup_domains").select("*").order("created_datetime_utc", { ascending: false });
 
   return (
     <main style={{ minHeight: "100vh", background: "#f5f5f5" }}>
@@ -22,11 +22,11 @@ export default async function SignupDomainsPage() {
           items={domains ?? []}
           columns={[
             { key: "id", label: "ID" },
-            { key: "domain", label: "Domain" },
-            { key: "created_at", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
+            { key: "apex_domain", label: "Domain" },
+            { key: "created_datetime_utc", label: "Created", render: v => v ? new Date(v).toLocaleDateString() : "—" },
           ]}
           formFields={[
-            { key: "domain", label: "Domain (e.g. example.com)", required: true },
+            { key: "apex_domain", label: "Domain (e.g. example.com)", required: true },
           ]}
         />
       </div>
