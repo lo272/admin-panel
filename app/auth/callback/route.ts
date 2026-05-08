@@ -8,5 +8,6 @@ export async function GET(request: Request) {
     const supabase = await createSupabaseServerClient();
     await supabase.auth.exchangeCodeForSession(code);
   }
+  // Redirect to home — page.tsx will forward admins to /dashboard, others to /browse
   return NextResponse.redirect(`${origin}/`);
 }

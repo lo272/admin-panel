@@ -26,16 +26,7 @@ export default async function Home() {
     .single();
 
   if (!profile?.is_superadmin) {
-    return (
-      <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ textAlign: "center", padding: 48 }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>🚫</div>
-          <h1 style={{ fontSize: 22, fontWeight: 700 }}>Access Denied</h1>
-          <p style={{ color: "#666" }}>You don't have superadmin access.</p>
-          <AuthButton userEmail={user.email} />
-        </div>
-      </main>
-    );
+    redirect("/browse");
   }
 
   redirect("/dashboard");
